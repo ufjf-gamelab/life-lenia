@@ -9,10 +9,16 @@ const ctx = canvas.getContext("2d");
 ctx.fillStyle = "black";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-let linha = 3;
-let coluna = 2;
 let TAM = 10;
 
-ctx.fillStyle = "red";
-ctx.fillRect(coluna*TAM, linha*TAM, TAM, TAM);
+desenhaQuadrado(2, 3);
+desenhaQuadrado(5,5);
+desenhaQuadrado(12,5);
+
+
+
+function desenhaQuadrado(linha, coluna){
+    ctx.fillStyle = "red";
+    ctx.fillRect(coluna*TAM, linha*TAM, TAM, TAM);
+}
 
