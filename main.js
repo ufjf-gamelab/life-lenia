@@ -31,6 +31,23 @@ for(let l=0; l<20; l++){
 desenhaA();
 
 
+
+
+function contaVizinhos(M, l, c){
+    let total = 0;
+
+    total += M[l-1][c];
+    total += M[l-1][c-1];
+    total += M[l-1][c+1];
+    total += M[l+1][c];
+    total += M[l+1][c-1];
+    total += M[l+1][c+1];
+    total += M[l][c-1];
+    total += M[l][c+1];
+
+    return 0;
+}
+
 function desenhaA(){
     for(let l=0; l<20; l++){
         for(let c=0; c<20; c++){
