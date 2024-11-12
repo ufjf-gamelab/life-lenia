@@ -11,14 +11,36 @@ ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 let TAM = 10;
 
+const A = [];
+const B = [];
 
 for(let l=0; l<20; l++){
+    A[l] = [];
+    B[l] = [];
     for(let c=0; c<20; c++){
         if(Math.random()<0.3){
-            desenhaQuadrado(l,c);
+            A[l][c] = 1;
+        }
+        else{
+            A[l][c] = 0;
+        }
+        B[l][c] = 0;
+    }
+}
+
+desenhaA();
+
+
+function desenhaA(){
+    for(let l=0; l<20; l++){
+        for(let c=0; c<20; c++){
+            if(A[l][c] === 1){
+                desenhaQuadrado(l,c);
+            }
         }
     }
 }
+
 
 
 function desenhaQuadrado(linha, coluna){
