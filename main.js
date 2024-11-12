@@ -11,10 +11,14 @@ ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 let TAM = 10;
 
-desenhaQuadrado(2, 3);
-desenhaQuadrado(5,5);
-desenhaQuadrado(12,5);
 
+for(let l=0; l<20; l++){
+    for(let c=0; c<20; c++){
+        if(Math.random()<0.3){
+            desenhaQuadrado(l,c);
+        }
+    }
+}
 
 
 function desenhaQuadrado(linha, coluna){
