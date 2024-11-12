@@ -26,18 +26,27 @@ for (let l = 0; l < 20; l++) {
 }
 
 let vez = true;
+let dt = 0;
+let t0 = 0;
+let cooldown = 0;
+function passo(t) {
+  dt = (t - t0)/1000;
 
-function passo() {
-  limpaTela();
-  if (vez) {
-    atualizaMatriz(B, A);
-    desenhaMatriz(B);
-  } else {
-    atualizaMatriz(A, B);
-    desenhaMatriz(B);
+  cooldown += dt;
+  if (cooldown > 0.1) {
+    limpaTela();
+    if (vez) {
+      atualizaMatriz(B, A);
+      desenhaMatriz(B);
+    } else {
+      atualizaMatriz(A, B);
+      desenhaMatriz(B);
+    }
+    vez = !vez;
+    cooldown = 0;
   }
-  vez = !vez;
   requestAnimationFrame(passo);
+  t0 = t;
 }
 
 requestAnimationFrame(passo);
@@ -63,7 +72,7 @@ function atualizaMatriz(D, O) {
       } else {
         if (v === 3) {
           D[l][c] = 1;
-        }else {
+        } else {
           D[l][c] = 0;
         }
       }
