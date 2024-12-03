@@ -25,17 +25,17 @@ for (let l = 0; l < 20; l++) {
   }
 }
 
-A[0][10] = 1;
-A[1][10] = 1;
-A[2][10] = 1;
-A[2][11] = 1;
-A[1][12] = 1;
+// A[0][10] = 1;
+// A[1][10] = 1;
+// A[2][10] = 1;
+// A[2][11] = 1;
+// A[1][12] = 1;
 
-A[10][0] = 1;
-A[10][1] = 1;
-A[10][2] = 1;
-A[9][2] = 1;
-A[8][1] = 1;
+A[0][0] = 1;
+A[0][1] = 1;
+A[0][2] = 1;
+// A[9][2] = 1;
+// A[8][1] = 1;
 
 
 let vez = true;
@@ -150,5 +150,5 @@ function desenhaMatriz(M) {
 
 function desenhaQuadrado(linha, coluna) {
   ctx.fillStyle = "red";
-  ctx.fillRect(coluna * TAM, linha * TAM, TAM, TAM);
+  ctx.fillRect(linha * TAM, coluna * TAM, TAM, TAM);
 }
