@@ -17,7 +17,7 @@ for (let l = 0; l < 20; l++) {
   B[l] = [];
   for (let c = 0; c < 20; c++) {
     if (Math.random() < -0.3) {
-      A[l][c] = 1;
+      A[l][c] = 0;
     } else {
       A[l][c] = 0;
     }
@@ -25,15 +25,15 @@ for (let l = 0; l < 20; l++) {
   }
 }
 
-// A[0][10] = 1;
-// A[1][10] = 1;
-// A[2][10] = 1;
-// A[2][11] = 1;
-// A[1][12] = 1;
+A[0][10] = 1;
+A[1][10] = 1;
+A[2][10] = 1;
+A[2][11] = 1;
+A[1][12] = 1;
 
-A[0][0] = 1;
-A[0][1] = 1;
-A[0][2] = 1;
+// A[0][0] = 1;
+// A[0][1] = 1;
+// A[0][2] = 1;
 // A[9][2] = 1;
 // A[8][1] = 1;
 
@@ -48,12 +48,13 @@ function passo(t) {
   cooldown += dt;
   if (cooldown > 0.1) {
     limpaTela();
+    // pintaAzuis( A, 1, 1, 3);
     if (vez) {
       atualizaMatriz(B, A);
       desenhaMatriz(B);
     } else {
       atualizaMatriz(A, B);
-      desenhaMatriz(B);
+      desenhaMatriz(A);
     }
     vez = !vez;
     cooldown = 0;
@@ -73,22 +74,22 @@ A dead cell will be brought back to live if it has exactly three live neighbors.
  */
 
 function atualizaMatriz(D, O) {
-  for (let l = 0; l < 20; l++) {
-    //linha
-    for (let c = 0; c < 20; c++) {
-      //coluna
-      const v = contaVizinhos(O, l, c); //conta os vizinhos posição
+  const TL = D.length;
+  const TC = D[0].length;
+  for (let l = 0; l < TL; l++) {
+    for (let c = 0; c < TC; c++) {
+      const v = contaVizinhos(O, l, c);
       if (O[l][c] === 1) {
         if (v < 2 || v > 3) {
-          //mais que 3 ou menos que 2 morre
           D[l][c] = 0;
         } else {
           D[l][c] = 1;
+          // pintaAzuis(D, l, c, 2);
         }
       } else {
         if (v === 3) {
-          // 3 vizionhos revive
           D[l][c] = 1;
+          // pintaAzuis(D, l, c, 2);
         } else {
           D[l][c] = 0;
         }
@@ -106,19 +107,14 @@ function limpaTela() {
 function contaVizinhos(M, l, c) {
   
   let total = 0;
-  const numLinhas = M.length;
-  const numColunas = M[0].length;
+ 
+  const nucleo = celulasNucleo(M, l, c, 1);
 
-  // Obter os vizinhos, considerando bordas opostas
-  total += v(M, l - 1, c) // Cima
-  total += M[getIndice(l - 1, numLinhas)][getIndice(c - 1, numColunas)]; // Diagonal superior esquerda
-  total += M[getIndice(l - 1, numLinhas)][getIndice(c + 1, numColunas)]; // Diagonal superior direita
-  total += M[getIndice(l + 1, numLinhas)][c]; // Baixo
-  total += M[getIndice(l + 1, numLinhas)][getIndice(c - 1, numColunas)]; // Diagonal inferior esquerda
-  total += M[getIndice(l + 1, numLinhas)][getIndice(c + 1, numColunas)]; // Diagonal inferior direita
-  total += M[l][getIndice(c - 1, numColunas)]; // Esquerda
-  total += M[l][getIndice(c + 1, numColunas)]; // Direita
-
+  for(let i = 0; i < nucleo.length; i++)
+  {
+    const celula = nucleo[i];
+    total += M[celula.l][celula.c];
+  }
   return total;
 }
 
@@ -138,11 +134,17 @@ function v(M, l, c)
   return M[getIndice(l, TL)][getIndice(c, TC)];
 }
 
+
 function desenhaMatriz(M) {
-  for (let l = 0; l < 20; l++) {
-    for (let c = 0; c < 20; c++) {
+  const TL = M.length;
+  const TC = M[0].length;
+  for (let l = 0; l < TL; l++) {
+    for (let c = 0; c < TC; c++) {
       if (M[l][c] === 1) {
         desenhaQuadrado(l, c);
+      }
+      if (M[l][c] === 2) {
+        desenhaQuadradoAzul(l, c); // Azul
       }
     }
   }
@@ -151,4 +153,46 @@ function desenhaMatriz(M) {
 function desenhaQuadrado(linha, coluna) {
   ctx.fillStyle = "red";
   ctx.fillRect(linha * TAM, coluna * TAM, TAM, TAM);
+}
+
+function desenhaQuadradoAzul(linha, coluna) {
+  ctx.fillStyle = "blue";
+  ctx.fillRect(linha * TAM, coluna * TAM, TAM, TAM);
+}
+
+const direcoes = [
+  [-2, 0], [2, 0], [0, -2], [0, 2],  // Cima, baixo, esquerda, direita
+  [-2, -2], [-2, 2], [2, -2], [2, 2] // Diagonais
+];
+
+function pintaAzuis(M, lc, cc, r) {
+
+  const TL = M.length;
+  const TC = M[0].length; 
+  
+  for(let l = lc - r; l <= lc + r; l++)
+  {
+    for(let c = cc - r; c <= cc + r; c++)
+    {
+        if(l === lc && c === cc) continue;
+        desenhaQuadradoAzul(getIndice(l, TL), getIndice(c, TC));
+    }
+  }
+}
+
+function celulasNucleo(M, lc, cc, r) {
+
+  const TL = M.length;
+  const TC = M[0].length; 
+  const nucleo = [];
+  
+  for(let l = lc - r; l <= lc + r; l++)
+  {
+    for(let c = cc - r; c <= cc + r; c++)
+    {
+        if(l === lc && c === cc) continue;
+        nucleo.push({l:getIndice(l, TL), c:getIndice(c, TC)});
+    }
+  }
+  return nucleo;
 }
