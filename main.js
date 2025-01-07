@@ -1,21 +1,22 @@
 const canvas = document.createElement("canvas");
-canvas.width = 200;
-canvas.height = 200;
+const TAM = 5;
+const DIM = 100;
+canvas.width = TAM*DIM;
+canvas.height = TAM*DIM;
 // canvas.style.border = "1px solid black;"
 
 document.body.append(canvas);
 
 const ctx = canvas.getContext("2d");
 
-let TAM = 10;
 
 const A = [];
 const B = [];
 
-for (let l = 0; l < 20; l++) {
+for (let l = 0; l < DIM; l++) {
   A[l] = [];
   B[l] = [];
-  for (let c = 0; c < 20; c++) {
+  for (let c = 0; c < DIM; c++) {
     if (Math.random() < -0.3) {
       A[l][c] = 0;
     } else {
