@@ -1,5 +1,5 @@
 import { desenhaMatriz, limpaTela } from './design.js';
-import { atualizaMatriz } from './operation.js';
+import { atualizaMatriz } from './conway.js';
 
 const canvas = document.createElement("canvas");
 const TAM = 5;
@@ -29,17 +29,22 @@ for (let l = 0; l < DIM; l++) {
   }
 }
 
-A[0][10] = 1;
-A[1][10] = 1;
-A[2][10] = 1;
-A[2][11] = 1;
-A[1][12] = 1;
+function startGlider(matriz) {
+  const gliderPattern = [
+    [0, 10],
+    [1, 10],
+    [2, 10],
+    [2, 11],
+    [1, 12]
+  ];
 
-// A[0][0] = 1;
-// A[0][1] = 1;
-// A[0][2] = 1;
-// A[9][2] = 1;
-// A[8][1] = 1;
+  for (let i = 0; i < gliderPattern.length; i++) {
+    let [l, c] = gliderPattern[i];
+    matriz[l][c] = 1;
+  }
+}
+
+startGlider(A);
 
 
 let vez = true;
