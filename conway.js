@@ -55,21 +55,6 @@ export function atualizaMatriz(D, O, ctx, TAM) {
   return M[getIndice(l, TL)][getIndice(c, TC)];
 }
 
-export function pintaAzuis(M, lc, cc, r, ctx, TAM) {
-
-    const TL = M.length;
-    const TC = M[0].length; 
-    
-    for(let l = lc - r; l <= lc + r; l++)
-    {
-      for(let c = cc - r; c <= cc + r; c++)
-      {
-          if(l === lc && c === cc) continue;
-          design.desenhaQuadradoAzul(getIndice(l, TL), getIndice(c, TC), ctx, TAM);
-      }
-    }
-  }
-
   export function celulasNucleo(M, lc, cc, r) {
 
   const TL = M.length;
