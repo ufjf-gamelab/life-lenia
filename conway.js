@@ -1,30 +1,31 @@
 import * as design from './design.js';
 
 export function atualizaMatriz(D, O, ctx, TAM) {
-    const TL = D.length;
-    const TC = D[0].length;
-    console.log(D);
-    for (let l = 0; l < TL; l++) {
-      for (let c = 0; c < TC; c++) {
-        const v = contaVizinhos(D);
-        if (O[l][c] === 1) {
-          if (v < 2 || v > 3) {
-            D[l][c] = 0;
-          } else {
-            D[l][c] = 1;
-            // pintaAzuis(D, l, c, 2, ctx, TAM);
-          }
+  const TL = D.length;
+  const TC = D[0].length;
+  const vizinhos = contaVizinhos(O); 
+
+  for (let l = 0; l < TL; l++) {
+    for (let c = 0; c < TC; c++) {
+      const v = vizinhos[l][c]; 
+      if (O[l][c] === 1) {
+        if (v < 2 || v > 3) {
+          D[l][c] = 0; 
         } else {
-          if (v === 3) {
-            D[l][c] = 1;
-            // pintaAzuis(D, l, c, 2, ctx, TAM);
-          } else {
-            D[l][c] = 0;
-          }
+          D[l][c] = 1; 
+          // pintaAzuis(D, l, c, 2, ctx, TAM); // Pinta a célula viva
+        }
+      } else {
+        if (v === 3) {
+          D[l][c] = 1; 
+          // pintaAzuis(D, l, c, 2, ctx, TAM);
+        } else {
+          D[l][c] = 0; // Permanece morta
         }
       }
     }
   }
+}
 
   export function contaVizinhos(M) {
     const TL = M.length;   
@@ -65,21 +66,6 @@ export function deslocaMatriz(M, dl, dc) {
   return novaMatriz;
 }
 
-
-  // export  function contaVizinhos(M, l, c) {
-  
-  //   let total = 0;
-   
-  //   const nucleo = celulasNucleo(M, l, c, 1);
-  
-  //   for(let i = 0; i < nucleo.length; i++)
-  //   {
-  //     const celula = nucleo[i];
-  //     total += M[celula.l][celula.c];
-  //   }
-  //   return total;
-  // }
-
   // Calcula o índice, considerando bordas opostas
   export function getIndice(indice, maxTam) {
     if (indice > 0) {
@@ -95,22 +81,3 @@ export function deslocaMatriz(M, dl, dc) {
   const TC = M[0].length; 
   return M[getIndice(l, TL)][getIndice(c, TC)];
 }
-
-
-//retorna todas as células vizinhas
-//   export function celulasNucleo(M, lc, cc, r) {
-
-//   const TL = M.length;
-//   const TC = M[0].length; 
-//   const nucleo = [];
-  
-//   for(let l = lc - r; l <= lc + r; l++)
-//   {
-//     for(let c = cc - r; c <= cc + r; c++)
-//     {
-//         if(l === lc && c === cc) continue;
-//         nucleo.push({l:getIndice(l, TL), c:getIndice(c, TC)});
-//     }
-//   }
-//   return nucleo;
-// }
