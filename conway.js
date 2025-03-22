@@ -1,13 +1,14 @@
 import * as design from './design.js';
+import {convolucao} from './convolution.js';
 
 export function atualizaMatriz(D, O, ctx, TAM) {
   const TL = D.length;
   const TC = D[0].length;
-  const vizinhos = contaVizinhos(O); 
+  const vizinhos = convolucao(O); //Nova função convolução 
 
   for (let l = 0; l < TL; l++) {
     for (let c = 0; c < TC; c++) {
-      const v = vizinhos[l][c]; 
+      const v = vizinhos[l][c];  
       if (O[l][c] === 1) {
         if (v < 2 || v > 3) {
           D[l][c] = 0; 
@@ -27,29 +28,6 @@ export function atualizaMatriz(D, O, ctx, TAM) {
   }
 }
 
-  export function contaVizinhos(M) {
-    const TL = M.length;   
-    const TC = M[0].length;   
-    let U = Array.from({ length: TL }, () => Array(TC).fill(0)); //matriz U que armazena a soma de vizinhos para CADA CÉLULA, de mesmo tamanho de M
-
-    const deslocamentos = [-1, 0, 1]; 
-
-    for (let dl of deslocamentos) {
-        for (let dc of deslocamentos) {
-            if (dl === 0 && dc === 0) continue; // Ignora a item do centro (0,0)
-
-            let deslocada = deslocaMatriz(M, dl, dc); // deslocamento da matriz para todas as direções 
-
-            for (let l = 0; l < TL; l++) {   
-                for (let c = 0; c < TC; c++) {
-                    U[l][c] += deslocada[l][c];   //U (matriz de vizinhos) possui a soma dos vizinhos para todas as celulas, ou seja, soma os valores deslocados
-                }
-            }
-        }
-    }
-    return U;
-}
-
 //Desloca M para cada direção
 export function deslocaMatriz(M, dl, dc) {
   const TL = M.length;
@@ -66,14 +44,7 @@ export function deslocaMatriz(M, dl, dc) {
   return novaMatriz;
 }
 
-  // Calcula o índice, considerando bordas opostas
-  export function getIndice(indice, maxTam) {
-    if (indice > 0) {
-      return (indice % maxTam);
-    } else {
-      return (-Math.abs(indice % maxTam) + maxTam) % maxTam;
-    }
-  }
+ 
 
   export function v(M, l, c)
 {
