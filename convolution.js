@@ -51,3 +51,13 @@ function growth(U) {  //chamei U para analizar os vizinhos e aplicar as regras
   return G;  //retorno matriz que aplica as regras do game
 }
 
+export function atualizaMatriz(M, G) {  //atualizar células mortas e vivas
+  const TL = M.length;
+  const TC = M[0].length;
+
+  for (let i = 0; i < TL; i++) {
+    for (let j = 0; j < TC; j++) {
+      M[i][j] = Math.min(1, Math.max(0, M[i][j] + G[i][j]));  //soma e garante que se for >1 vira um e se for <0 vira zero 
+    }
+  }
+}
