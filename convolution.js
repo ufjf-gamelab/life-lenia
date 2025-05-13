@@ -51,13 +51,24 @@ function growth(U) {  //chamei U para analizar os vizinhos e aplicar as regras
   return G;  //retorno matriz que aplica as regras do game
 }
 
-export function atualizaMatriz(M, G) {  //atualizar células mortas e vivas
-  const TL = M.length;
-  const TC = M[0].length;
+export function atualizaMatriz(D, O) {  //atualizar células mortas e vivas
+  const TL = O.length;
+  const TC = O[0].length;
+  
+  // Define o kernel para calcular os vizinhos
+  const kernel = [
+    [1, 1, 1],
+    [1, 0, 1],
+    [1, 1, 1],
+  ];
+
+  // Passa o kernel para a função convolução
+  const U = convolucao(O, kernel);
+  const G = growth(U);
 
   for (let i = 0; i < TL; i++) {
     for (let j = 0; j < TC; j++) {
-      M[i][j] = Math.min(1, Math.max(0, M[i][j] + G[i][j]));  //soma e garante que se for >1 vira um e se for <0 vira zero 
+      D[i][j] = Math.min(1, Math.max(0, O[i][j] + G[i][j]));  //soma e garante que se for >1 vira um e se for <0 vira zero 
     }
   }
 }
