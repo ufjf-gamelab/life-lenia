@@ -1,5 +1,5 @@
 import { desenhaMatriz, limpaTela } from './design.js';
-import { atualizaMatriz } from './conway.js';
+import { atualizaMatriz } from './convolution.js';
 
 const canvas = document.createElement("canvas");
 const TAM = 5;
@@ -59,10 +59,10 @@ function passo(t) {
     limpaTela(ctx, canvas);
     // pintaAzuis( A, 1, 1, 3);
     if (vez) {
-      atualizaMatriz(B, A, ctx, TAM);
+      atualizaMatriz(B, A);
       desenhaMatriz(B, ctx, TAM);
     } else {
-      atualizaMatriz(A, B, ctx, TAM);
+      atualizaMatriz(A, B);
       desenhaMatriz(A, ctx, TAM);
     }
     vez = !vez;

@@ -1,7 +1,7 @@
 import * as design from "./design.js";
 import { convolucao } from "./convolution.js";
 
-export function atualizaMatriz(D, O, ctx, TAM) {
+export function atualizaMatriz(D, O) {
   const TL = D.length;
   const TC = D[0].length;
 
