@@ -2,22 +2,28 @@
 export function desenhaMatriz(M, ctx, TAM) {
     const TL = M.length;
     const TC = M[0].length;
+    const states = 12; //12 estados do primordia
     for (let l = 0; l < TL; l++) {
       for (let c = 0; c < TC; c++) {
-        if (M[l][c] === 1) {
-          desenhaQuadrado(l, c, ctx, TAM);
-        }
-        if (M[l][c] === 2) {
-          desenhaQuadradoAzul(l, c, ctx, TAM); // Azul
+        //  if (M[l][c] === 1) {
+        //   desenhaQuadrado(l, c, ctx, TAM);
+        // }
+        // if (M[l][c] === 2) {
+        //   desenhaQuadradoAzul(l, c, ctx, TAM); // Azul
+        // }
+         if (M[l][c] > 0 && M[l][c] <= states) {  //verifica se está entre 1 e 12 (0 não desenha)
+          const intensidade = M[l][c] / states;  //ex: 6/12 tem 50% da intensidade
+          ctx.fillStyle = `rgb(${Math.floor(intensidade * 255)}, 0, 0)`; //variação cor: quanto maior o valor, mais forte fica o vermelho
+          ctx.fillRect(l * TAM, c * TAM, TAM, TAM);  //canvas: desenha o quadrado com a cor atual
         }
       }
     }
   }
 
-export function desenhaQuadrado(linha, coluna, ctx, TAM) {
-    ctx.fillStyle = "red";
-    ctx.fillRect(linha * TAM, coluna * TAM, TAM, TAM);
-  }
+// export function desenhaQuadrado(linha, coluna, ctx, TAM) {
+//     ctx.fillStyle = "red";
+//     ctx.fillRect(linha * TAM, coluna * TAM, TAM, TAM);
+//   }
   
 export function desenhaQuadradoAzul(linha, coluna, ctx, TAM) {
     ctx.fillStyle = "blue";
