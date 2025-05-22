@@ -1,5 +1,5 @@
 import { desenhaMatriz, limpaTela } from './design.js';
-import { atualizaMatriz } from './convolution.js';
+import { atualizaMatriz } from './primordia.js';
 
 const canvas = document.createElement("canvas");
 const TAM = 5;
@@ -40,7 +40,7 @@ function startGlider(matriz) {
 
   for (let i = 0; i < gliderPattern.length; i++) {
     let [l, c] = gliderPattern[i];
-    matriz[l][c] = 1;
+    matriz[l][c] = 12;  //testando começar com max
   }
 }
 
