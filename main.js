@@ -1,5 +1,5 @@
 import { desenhaMatriz, limpaTela } from './design.js';
-import { atualizaMatriz } from './primordia.js';
+import { atualizaMatriz, stampDiagonalLarge, stampOscilatingLarge } from './primordia.js';
 
 const canvas = document.createElement("canvas");
 const TAM = 5;
@@ -29,22 +29,8 @@ for (let l = 0; l < DIM; l++) {
   }
 }
 
-function startGlider(matriz) {
-  const gliderPattern = [
-    [0, 10],
-    [1, 10],
-    [2, 10],
-    [2, 11],
-    [1, 12]
-  ];
-
-  for (let i = 0; i < gliderPattern.length; i++) {
-    let [l, c] = gliderPattern[i];
-    matriz[l][c] = 12;  //testando começar com max
-  }
-}
-
-startGlider(A);
+stampOscilatingLarge(A, 15, 15);
+stampDiagonalLarge(A, 50, 50);
 
 
 let vez = true;

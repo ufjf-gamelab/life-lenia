@@ -58,3 +58,22 @@ export function v(M, l, c) {
   const TC = M[0].length;
   return M[getIndice(l, TL)][getIndice(c, TC)];
 }
+
+
+
+function startGlider(matriz) {
+  const gliderPattern = [
+    [0, 10],
+    [1, 10],
+    [2, 10],
+    [2, 11],
+    [1, 12]
+  ];
+
+  for (let i = 0; i < gliderPattern.length; i++) {
+    let [l, c] = gliderPattern[i];
+    matriz[l][c] = 12;  //testando começar com max
+  }
+}
+
+startGlider(A);

@@ -73,3 +73,46 @@ export function atualizaMatriz(D, O) {  //atualizar células mortas e vivas
     }
   }
 }
+
+export function stampOscilatingLarge(M, dx, dy) {
+  const TL = M.length;
+  const TC = M[0].length;
+  const states = 12; //12 estados do primordia
+  const pattern = [
+    [0, 0, 7],
+    [0, 1, 8],
+    [1, 0, 8],
+    [1, 1, 10],
+  ];
+
+  for (let i = 0; i < pattern.length; i++) {
+    let [l, c, s] = pattern[i];
+    const row = getIndice(l + dy, TL);
+    const col = getIndice(c + dx, TC);
+    M[row][col] = s
+  }
+}
+
+export function stampDiagonalLarge(M, dx, dy) {
+  const TL = M.length;
+  const TC = M[0].length;
+  const states = 12; //12 estados do primordia
+  const pattern = [
+    [0, 0, 0],
+    [0, 1, 8],
+    [0, 2, 3],
+    [1, 0, 8],
+    [1, 1, 0],
+    [1, 2, 11],
+    [2, 0, 3],
+    [2, 1, 11],
+    [2, 2, 4],
+  ];
+
+  for (let i = 0; i < pattern.length; i++) {
+    let [l, c, s] = pattern[i];
+    const row = getIndice(l + dy, TL);
+    const col = getIndice(c + dx, TC);
+    M[row][col] = s
+  }
+}
