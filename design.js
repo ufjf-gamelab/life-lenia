@@ -15,6 +15,7 @@ export function desenhaMatriz(M, ctx, TAM) {
           const intensidade = M[l][c] / states;  //ex: 6/12 tem 50% da intensidade
           ctx.fillStyle = `rgb(${Math.floor(intensidade * 255)}, 0, 0)`; //variação cor: quanto maior o valor, mais forte fica o vermelho
           desenhaQuadrado(l, c, ctx, TAM);
+          escreveTexto(l, c, ctx, TAM, M[l][c]);
         }
       }
     }
@@ -23,6 +24,12 @@ export function desenhaMatriz(M, ctx, TAM) {
 export function desenhaQuadrado(linha, coluna, ctx, TAM) {
     // ctx.fillStyle = "red";
     ctx.fillRect(linha * TAM, coluna * TAM, TAM, TAM);
+  }
+
+  export function escreveTexto(linha, coluna, ctx, TAM, texto) {
+    ctx.fillStyle = "white";
+    ctx.font = "6px arial";
+    ctx.fillText(texto, linha * TAM, coluna * TAM + (TAM/2), TAM);
   }
   
 export function desenhaQuadradoAzul(linha, coluna, ctx, TAM) {
