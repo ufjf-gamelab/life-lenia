@@ -61,7 +61,7 @@ export function v(M, l, c) {
 
 
 
-function startGlider(matriz) {
+export function startGlider(matriz) {
   const gliderPattern = [
     [0, 10],
     [1, 10],
@@ -76,4 +76,3 @@ function startGlider(matriz) {
   }
 }
 
-startGlider(A);
