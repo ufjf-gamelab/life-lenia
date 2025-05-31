@@ -1,8 +1,9 @@
+// import { startGlider } from './conway.js';
 import { desenhaMatriz, limpaTela } from './design.js';
 import { atualizaMatriz, stampDiagonalLarge, stampOscilatingLarge } from './primordia.js';
 
 const canvas = document.createElement("canvas");
-const TAM = 5;
+const TAM = 15;
 const DIM = 100;
 canvas.width = TAM*DIM;
 canvas.height = TAM*DIM;
@@ -20,28 +21,26 @@ for (let l = 0; l < DIM; l++) {
   A[l] = [];
   B[l] = [];
   for (let c = 0; c < DIM; c++) {
-    if (Math.random() < -0.3) {
-      A[l][c] = 0;
-    } else {
-      A[l][c] = 0;
-    }
+    // A[l][c] = Math.floor(Math.random() * 13);
+    A[l][c] = 0;
     B[l][c] = 0;
   }
 }
 
+
 stampOscilatingLarge(A, 15, 15);
 stampDiagonalLarge(A, 50, 50);
+// startGlider(A);
 
 
 let vez = true;
 let dt = 0;
 let t0 = 0;
-let cooldown = 0;
+
 function passo(t) {
   dt = (t - t0) / 1000;
 
-  cooldown += dt;
-  if (cooldown > 0.1) {
+  
     limpaTela(ctx, canvas);
     // pintaAzuis( A, 1, 1, 3);
     if (vez) {
@@ -52,10 +51,10 @@ function passo(t) {
       desenhaMatriz(A, ctx, TAM);
     }
     vez = !vez;
-    cooldown = 0;
-  }
+    
   requestAnimationFrame(passo);
   t0 = t;
+  
 }
 
 requestAnimationFrame(passo);
