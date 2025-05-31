@@ -36,18 +36,22 @@ function growth(U) {  //chamei U para analizar os vizinhos e aplicar as regras
   const TL = U.length;
   const TC = U[0].length;
   let G = Array.from({ length: TL }, () => Array(TC).fill(0));
-
+  const K = 20;
+  const L = 4;
+  const M = 1;
+  const N = 2;
   for (let i = 0; i < TL; i++) {
     for (let j = 0; j < TC; j++) {  //agora a soma de todos os 8 vizinhos pode ir de 0 até 96 (12 * 8)
-      if (U[i][j] >= 20 && U[i][j] <= 24) {  //Se tem entre 20 e 24 vizinhos, nasce
+      if ((K <= U[i][j]) && (U[i][j] <= (K + L))) {  //Se tem entre 20 e 24 vizinhos, nasce
         G[i][j] = 1;
-      } else if (U[i][j] <= 18 || U[i][j] >= 32) {   //Se tem pouco ou muito, morre
+      } else if (((K - M) > U[i][j])  || (U[i][j] > (K + L + N))) {   //Se tem pouco ou muito, morre
         G[i][j] = -1;
       } else {   //se tem entre 19 e 31 (excluindo 20 a 24 vizinhos) mantém o estado atual
         G[i][j] = 0;
       }
     }
   }
+  debugger;
   return G;  //retorno matriz que aplica as regras do game
 }
 
@@ -70,14 +74,16 @@ export function atualizaMatriz(D, O) {  //atualizar células mortas e vivas
   for (let i = 0; i < TL; i++) {
     for (let j = 0; j < TC; j++) {
       D[i][j] = Math.min(states, Math.max(0, O[i][j] + G[i][j]));  //soma e garante que se for >12 vira um e se for <0 vira zero 
+     
     }
   }
+  
 }
 
 export function stampOscilatingLarge(M, dx, dy) {
   const TL = M.length;
   const TC = M[0].length;
-  const states = 12; //12 estados do primordia
+  // const states = 12; //12 estados do primordia
   const pattern = [
     [0, 0, 7],
     [0, 1, 8],
@@ -86,19 +92,29 @@ export function stampOscilatingLarge(M, dx, dy) {
   ];
 
   for (let i = 0; i < pattern.length; i++) {
-    let [l, c, s] = pattern[i];
-    const row = getIndice(l + dy, TL);
-    const col = getIndice(c + dx, TC);
-    M[row][col] = s
+    const [r, c, state] = pattern[i];
+    
+    const row = (dy + r) % TL;
+    const col = (dx + c) % TC;
+    M[row][col] = state;
   }
 }
 
 export function stampDiagonalLarge(M, dx, dy) {
   const TL = M.length;
   const TC = M[0].length;
-  const states = 12; //12 estados do primordia
+  // const states = 12; //12 estados do primordia
   const pattern = [
-    [0, 0, 0],
+    // [0, 0, 0],
+    // [0, 1, 8],
+    // [0, 2, 3],
+    // [1, 0, 8],
+    // [1, 1, 0],
+    // [1, 2, 11],
+    // [2, 0, 3],
+    // [2, 1, 11],
+    // [2, 2, 4],
+     [0, 0, 0],
     [0, 1, 8],
     [0, 2, 3],
     [1, 0, 8],
@@ -110,9 +126,9 @@ export function stampDiagonalLarge(M, dx, dy) {
   ];
 
   for (let i = 0; i < pattern.length; i++) {
-    let [l, c, s] = pattern[i];
-    const row = getIndice(l + dy, TL);
-    const col = getIndice(c + dx, TC);
-    M[row][col] = s
+    const [r, c, state] = pattern[i];
+    const row = (dy - 1 + r + TL) % TL; // desloca de forma que (1,1) fique no centro
+    const col = (dx - 1 + c + TC) % TC;
+    M[row][col] = state;
   }
 }

@@ -1,3 +1,4 @@
+import { getIndice } from './primordia.js';
 
 export function desenhaMatriz(M, ctx, TAM) {
     const TL = M.length;
@@ -12,6 +13,7 @@ export function desenhaMatriz(M, ctx, TAM) {
         //   desenhaQuadradoAzul(l, c, ctx, TAM); // Azul
         // }
          if (M[l][c] > 0 && M[l][c] <= states) {  //verifica se está entre 1 e 12 (0 não desenha)
+          // console.log(`Desenhando célula em [${l}, ${c}] com valor ${M[l][c]}`);
           const intensidade = M[l][c] / states;  //ex: 6/12 tem 50% da intensidade
           ctx.fillStyle = `rgb(${Math.floor(intensidade * 255)}, 0, 0)`; //variação cor: quanto maior o valor, mais forte fica o vermelho
           desenhaQuadrado(l, c, ctx, TAM);
@@ -19,22 +21,23 @@ export function desenhaMatriz(M, ctx, TAM) {
         }
       }
     }
+    debugger;
   }
 
 export function desenhaQuadrado(linha, coluna, ctx, TAM) {
     // ctx.fillStyle = "red";
-    ctx.fillRect(linha * TAM, coluna * TAM, TAM, TAM);
+    ctx.fillRect(coluna * TAM, linha * TAM, TAM, TAM);  //fiz alterações de coluna e linha
   }
 
   export function escreveTexto(linha, coluna, ctx, TAM, texto) {
     ctx.fillStyle = "white";
-    ctx.font = "6px arial";
-    ctx.fillText(texto, linha * TAM, coluna * TAM + (TAM/2), TAM);
+    ctx.font = "12px arial";
+    ctx.fillText(texto, coluna * TAM, linha * TAM + (TAM/2), TAM);
   }
   
 export function desenhaQuadradoAzul(linha, coluna, ctx, TAM) {
     ctx.fillStyle = "blue";
-    ctx.fillRect(linha * TAM, coluna * TAM, TAM, TAM);
+    ctx.fillRect(coluna * TAM, linha * TAM, TAM, TAM);
   }
 
 export function limpaTela(ctx, canvas) {
@@ -51,7 +54,7 @@ export function pintaAzuis(M, lc, cc, r, ctx, TAM) {
       for(let c = cc - r; c <= cc + r; c++)
       {
           if(l === lc && c === cc) continue;
-          design.desenhaQuadradoAzul(getIndice(l, TL), getIndice(c, TC), ctx, TAM);
+          desenhaQuadradoAzul(getIndice(l, TL), getIndice(c, TC), ctx, TAM);
       }
     }
   }
