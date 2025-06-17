@@ -4,7 +4,7 @@ import { atualizaMatriz, stampDiagonalLarge, stampOscilatingLarge } from './prim
 
 const canvas = document.createElement("canvas");
 const TAM = 15;
-const DIM = 20;
+const DIM = 100;
 canvas.width = TAM*DIM;
 canvas.height = TAM*DIM;
 
@@ -36,7 +36,8 @@ let t0 = 0;
 
 let options = {
   states:12,
-  K:20,
+  T:10,
+  K:2,
   L:4,
   M:1,
   N:2,
@@ -56,14 +57,15 @@ let options = {
 
   const somaKernel = options.kernel.flat().reduce((a, c)=>a+c, 0);  //não multipliquei por states
   options.kernelNorm = options.kernel.map((l) =>l.map((i)=>i/somaKernel));
-  options.KNorm = options.K/somaKernel;
-  options.LNorm = options.L/somaKernel;
-  options.MNorm = options.M/somaKernel;
-  options.NNorm = options.N/somaKernel;
+  options.KNorm = 0.2; //options.K/somaKernel;
+  options.LNorm = 0.05; //options.L/somaKernel;
+  options.MNorm = 0.02; //options.M/somaKernel;
+  options.NNorm = 0.08; //options.N/somaKernel;
 
 
 //stampOscilatingLarge(A, 10, 10);
 stampDiagonalLarge(A, 10, 10);
+
 
 // startGlider(A);
 

@@ -60,14 +60,15 @@ export function atualizaMatriz(D, O, options) {  //atualizar células mortas e v
   const U = convolucao(O, options.kernelNorm);
   debugger;
   const G = growth(U, options);
+   const dt = 1/options.T; 
 
   for (let i = 0; i < TL; i++) {
     for (let j = 0; j < TC; j++) {
-      D[i][j] = Math.min(options.states, Math.max(0, O[i][j] + G[i][j]));  //soma e garante que se for >12 vira um e se for <0 vira zero 
+      D[i][j] = Math.min(1, Math.max(0, O[i][j] + dt * G[i][j]));  //soma e garante que se for >12 vira um e se for <0 vira zero 
      
     }
   }
-  
+  debugger;
 }
 
 export function stampOscilatingLarge(M, dx, dy) {
@@ -96,14 +97,14 @@ export function stampDiagonalLarge(M, dx, dy) {
   // const states = 12; //12 estados do primordia
   const pattern = [
      [0, 0, 0],
-    [0, 1, 8],
-    [0, 2, 3],
-    [1, 0, 8],
+    [0, 1, 8/13],
+    [0, 2, 3/13],
+    [1, 0, 8/13],
     [1, 1, 0],
-    [1, 2, 11],
-    [2, 0, 3],
-    [2, 1, 11],
-    [2, 2, 4],
+    [1, 2, 11/13],
+    [2, 0, 3/13],
+    [2, 1, 11/13],
+    [2, 2, 4/13],
   ];
   
 

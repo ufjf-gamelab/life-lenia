@@ -7,11 +7,11 @@ export function desenhaMatriz(M, ctx, TAM) {
     const states = 12; //12 estados do primordia
     for (let l = 0; l < TL; l++) {
       for (let c = 0; c < TC; c++) {
-         if (M[l][c] > 0 && M[l][c] <= states) {  //verifica se está entre 1 e 12 (0 não desenha)
-          const intensidade = M[l][c] / states;  //ex: 6/12 tem 50% da intensidade
+         if (M[l][c] > 0) {  //verifica se está entre 1 e 12 (0 não desenha)
+          const intensidade = Math.min(1, M[l][c]);  //ex: 6/12 tem 50% da intensidade
           ctx.fillStyle = `rgb(${Math.floor(intensidade * 255)}, 0, 0)`; //variação cor: quanto maior o valor, mais forte fica o vermelho
           desenhaQuadrado(l, c, ctx, TAM);
-          escreveTexto(l, c, ctx, TAM, M[l][c]);
+          // escreveTexto(l, c, ctx, TAM, M[l][c]);
           
         }
       }
