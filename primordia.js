@@ -40,13 +40,14 @@ function growth(U, options) {  //chamei U para analizar os vizinhos e aplicar as
  
   for (let i = 0; i < TL; i++) {
     for (let j = 0; j < TC; j++) {  //agora a soma de todos os 8 vizinhos pode ir de 0 até 96 (12 * 8)
-      if ((options.KNorm <= U[i][j]) && (U[i][j] <= (options.KNorm + options.LNorm))) {  //Entre 0.20 e 0.25
-        G[i][j] = 1;
-      } else if (((options.KNorm - options.MNorm) > U[i][j])  || (U[i][j] > (options.KNorm + options.LNorm + options.NNorm))) {   //De 0.19 até 0.27
-        G[i][j] = -1;
+      if ((options.M1 <= U[i][j]) && (U[i][j] <= (options.M2))) {  //Entre 0.20 e 0.24
+        G[i][j] = 1/12;
+      } else if ((options.E >= U[i][j])  || (U[i][j] >= options.D)) {   //De 0.19 até 0.26
+        G[i][j] = -1/12;
       } else {   //se tem entre 19 e 31 (excluindo 20 a 24 vizinhos) mantém o estado atual
         G[i][j] = 0;
       }
+      
     }
   }
   return G;  //retorno matriz que aplica as regras do game
@@ -55,15 +56,15 @@ function growth(U, options) {  //chamei U para analizar os vizinhos e aplicar as
 export function atualizaMatriz(D, O, options) {  //atualizar células mortas e vivas
   const TL = O.length;
   const TC = O[0].length;
-
+debugger;
   // Passa o kernel para a função convolução
   const U = convolucao(O, options.kernelNorm);
-  debugger;
+  
   const G = growth(U, options);
 
   for (let i = 0; i < TL; i++) {
     for (let j = 0; j < TC; j++) {
-      D[i][j] = Math.min(options.states, Math.max(0, O[i][j] + G[i][j]));  //soma e garante que se for >12 vira um e se for <0 vira zero 
+      D[i][j] = Math.min(Math.max(O[i][j] + G[i][j], 0), 1);  //soma e garante que se for >1 vira um e se for <0 vira zero 
      
     }
   }
@@ -86,7 +87,7 @@ export function stampOscilatingLarge(M, dx, dy) {
     
     const row = (dy + r) % TL;
     const col = (dx + c) % TC;
-    M[row][col] = state;
+    M[row][col] = state/12;
   }
 }
 
@@ -95,7 +96,7 @@ export function stampDiagonalLarge(M, dx, dy) {
   const TC = M[0].length;
   // const states = 12; //12 estados do primordia
   const pattern = [
-     [0, 0, 0],
+      [0, 0, 0],
     [0, 1, 8],
     [0, 2, 3],
     [1, 0, 8],
@@ -111,6 +112,29 @@ export function stampDiagonalLarge(M, dx, dy) {
     const [r, c, state] = pattern[i];
     const row = (dy - 1 + r + TL) % TL; // desloca de forma que (1,1) fique no centro
     const col = (dx - 1 + c + TC) % TC;
-    M[row][col] = state;
+    M[row][col] = state * (1/12);
+  }
+}
+
+export function stampRightMove(M, dx, dy) {
+  const TL = M.length;
+  const TC = M[0].length;
+  const pattern = [
+      [0, 0, 2],
+    [0, 1, 0],
+    [0, 2, 10],
+    [0, 3, 3],
+    [1, 0, 2],
+    [1, 1, 0],
+    [1, 2, 10],
+    [1, 3, 3],
+  ];
+  
+
+  for (let i = 0; i < pattern.length; i++) {
+    const [r, c, state] = pattern[i];
+    const row = (dy - 1 + r + TL) % TL; // desloca de forma que (1,1) fique no centro
+    const col = (dx - 1 + c + TC) % TC;
+    M[row][col] = state * (1/12);
   }
 }
