@@ -1,7 +1,7 @@
 // import { startGlider } from './conway.js';
 import { desenhaMatriz, limpaTela } from './design.js';
 import { atualizaMatriz} from './lenia.js';
-// import { patterns, loadPattern } from './lenia.js';
+import { patterns, loadPattern } from './lenia.js';
 
 const canvas = document.createElement("canvas");
 const TAM = 15;
@@ -22,8 +22,8 @@ for (let l = 0; l < DIM; l++) {
   A[l] = [];
   B[l] = [];
   for (let c = 0; c < DIM; c++) {
-    A[l][c] = Math.random();
-    // A[l][c] = 0;
+    // A[l][c] = Math.random();
+    A[l][c] = 0;
     B[l][c] = 0;
   }
 }
@@ -68,28 +68,33 @@ function bell(x, m, s) {        //função gaussiana do tutorial  (distância no
 }
 
 let options = {
-  T: 10,
-  R: 5, // raio do kernel
   states:12,
   K:20,
   L:4,
   M:1,
   N:2,
 }
+const scale = 1;
+const cx = 20;
+const cy = 20;
 
+
+
+
+options.R = patterns.orbium.R;
+options.T = patterns.orbium.T;
+options.m = patterns.orbium.m;
+options.s = patterns.orbium.s;
 options.kernel = geraKernel(options.R);
 
 // stampOscilatingLarge(A, 10, 10);
 // stampDiagonalLarge(A, 30, 30);
 // stampRightMove(A, 50, 50);
 
-// loadPattern(pattern["pacman"]);
 
+loadPattern(A, patterns.orbium, cx, cy, scale);
 
 // startGlider(A);
-
-
-
 
 function passo(t) {
   dt = (t - t0) / 1000;
