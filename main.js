@@ -1,6 +1,7 @@
 // import { startGlider } from './conway.js';
 import { desenhaMatriz, limpaTela } from './design.js';
-import { atualizaMatriz, stampDiagonalLarge, stampOscilatingLarge, stampRightMove } from './primordia.js';
+import { atualizaMatriz} from './lenia.js';
+// import { patterns, loadPattern } from './lenia.js';
 
 const canvas = document.createElement("canvas");
 const TAM = 15;
@@ -27,52 +28,67 @@ for (let l = 0; l < DIM; l++) {
   }
 }
 desenhaMatriz(A, ctx, TAM);
-debugger;
-
 
 let vez = true;
 let dt = 0;
 let t0 = 0;
 
+function geraKernel(R) {  //matriz do kernel
+    const size = 2 * R + 1;  //tamanho do kernel = 11
+    const kernel = [];
+    let soma = 0;              //acumular soma para normalizar
+
+    for (let i = 0; i < size; i++) {       
+        kernel[i] = [];
+        for (let j = 0; j < size; j++) {
+            const di = i - R;     //calcula distancia de i ao dentro
+            const dj = j - R;
+            const d = Math.sqrt(di * di + dj * dj) / R;     //calcula distancia normalizada ao centro
+
+            let valor = 0;
+            if (d < 1) {           //se a diatância do centro <1
+                valor = bell(d, 0.5, 0.15);     
+            }
+            kernel[i][j] = valor;
+            soma += valor;
+        }
+    }
+
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < size; j++) {
+            kernel[i][j] /= soma;     //normaliza para a soma do kernel ser=1
+        }
+    }
+
+    return kernel;
+}
+
+function bell(x, m, s) {        //função gaussiana do tutorial  (distância norm, valor max da curva, largura do pico)
+    return Math.exp(-Math.pow((x - m) / s, 2) / 2);  //exponencial negativa que gera curva
+}
+
 let options = {
+  T: 10,
+  R: 5, // raio do kernel
   states:12,
   K:20,
   L:4,
   M:1,
   N:2,
-  kernel: [
-    [1, 1, 1],
-    [1, 0, 1],
-    [1, 1, 1],
-  ],
 }
 
-//   options.K_sum = options.states * options.kernel.flat().reduce((a,c)=>a+c, 0);  //estava calculando a soma do kernel mas depois multiplicava por states gerando um valor muito maior
-//   options.kernelNorm = options.kernel.map((l)=>l.map((i)=>i/options.K_sum));
-//   options.KNorm = options.K/options.K_sum;  //20/96
-//   options.LNorm = options.L/options.K_sum;
-//   options.MNorm = options.M/options.K_sum;
-//   options.NNorm = options.N/options.K_sum;
-
-  const somaKernel = options.kernel.flat().reduce((a, c)=>a+c, 0);  //não multipliquei por states
-  options.kernelNorm = options.kernel.map((l) =>l.map((i)=>i/(somaKernel * options.states)));  //ajustei a normalização do kernel para ver se estava afetando a convolução
-  options.KNorm = options.K/(somaKernel * options.states);  // 20/(8*12) = 20/96
-  options.LNorm = options.L/(somaKernel * options.states);
-  options.MNorm = options.M/(somaKernel * options.states);
-  options.NNorm = options.N/(somaKernel * options.states);
-
-  options.E = options.KNorm - options.MNorm;  //extrema esquerda
-  options.D = options.KNorm + options.LNorm + options.NNorm;
-  options.M1 = options.KNorm ;  //meio 1
-  options.M2 = options.KNorm + options.LNorm; 
-  document.body.append(JSON.stringify(options));
+options.kernel = geraKernel(options.R);
 
 // stampOscilatingLarge(A, 10, 10);
-stampDiagonalLarge(A, 30, 30);
+// stampDiagonalLarge(A, 30, 30);
 // stampRightMove(A, 50, 50);
+
+// loadPattern(pattern["pacman"]);
 
 
 // startGlider(A);
+
+
 
 
 function passo(t) {
