@@ -33,7 +33,7 @@ let vez = true;
 let dt = 0;
 let t0 = 0;
 
-function geraKernel(R) {  //matriz do kernel
+function geraKernel(R,  m, s) {  //matriz do kernel
     const size = 2 * R + 1;  //tamanho do kernel = 11
     const kernel = [];
     let soma = 0;              //acumular soma para normalizar
@@ -41,13 +41,13 @@ function geraKernel(R) {  //matriz do kernel
     for (let i = 0; i < size; i++) {       
         kernel[i] = [];
         for (let j = 0; j < size; j++) {
-            const di = i - R;     //calcula distancia de i ao dentro
-            const dj = j - R;
+            const di = i - R + 0.5;     //calcula distancia de i ao dentro
+            const dj = j - R + 0.5;
             const d = Math.sqrt(di * di + dj * dj) / R;     //calcula distancia normalizada ao centro
 
             let valor = 0;
             if (d < 1) {           //se a diatância do centro <1
-                valor = bell(d, 0.5, 0.15);     
+                valor = bell(d, m, s);    
             }
             kernel[i][j] = valor;
             soma += valor;
@@ -79,13 +79,13 @@ const cx = 20;
 const cy = 20;
 
 
+const patternSelecionado = patterns.orbium;  //selecionar padrão
 
-
-options.R = patterns.orbium.R;
-options.T = patterns.orbium.T;
-options.m = patterns.orbium.m;
-options.s = patterns.orbium.s;
-options.kernel = geraKernel(options.R);
+options.R = patternSelecionado.R;
+options.T = patternSelecionado.T;
+options.m = patternSelecionado.m;
+options.s = patternSelecionado.s;
+options.kernel = geraKernel(options.R, options.m, options.s);
 
 // stampOscilatingLarge(A, 10, 10);
 // stampDiagonalLarge(A, 30, 30);
@@ -93,6 +93,7 @@ options.kernel = geraKernel(options.R);
 
 
 loadPattern(A, patterns.orbium, cx, cy, scale);
+// loadPattern(A, patterns.pacman, cx, cy, scale);
 
 // startGlider(A);
 
