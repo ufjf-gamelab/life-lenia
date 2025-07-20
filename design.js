@@ -11,7 +11,7 @@ export function desenhaMatriz(M, ctx, TAM) {
           const intensidade = M[l][c] ;  //ex: 6/12 tem 50% da intensidade
           ctx.fillStyle = `rgb(${Math.floor(intensidade * 255)}, 0, 0)`; //variação cor: quanto maior o valor, mais forte fica o vermelho
           desenhaQuadrado(l, c, ctx, TAM);
-          escreveTexto(l, c, ctx, TAM, Math.floor(M[l][c]*states));  
+          // escreveTexto(l, c, ctx, TAM, Math.floor(M[l][c]*states));  
           
         
       }
