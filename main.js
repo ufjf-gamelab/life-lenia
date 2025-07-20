@@ -36,7 +36,7 @@ let t0 = 0;
 
 let options = {
   states:12,
-  T:10,
+  T:20,
   K:2,
   L:4,
   M:1,
@@ -57,10 +57,10 @@ let options = {
 
   const somaKernel = options.kernel.flat().reduce((a, c)=>a+c, 0);  //não multipliquei por states
   options.kernelNorm = options.kernel.map((l) =>l.map((i)=>i/somaKernel));
-  options.KNorm = 0.2; //options.K/somaKernel;
-  options.LNorm = 0.05; //options.L/somaKernel;
-  options.MNorm = 0.02; //options.M/somaKernel;
-  options.NNorm = 0.08; //options.N/somaKernel;
+ options.KNorm = 20 / 96; // ~0.208
+options.LNorm = 4 / 96;  // ~0.042
+options.MNorm = 1 / 96;  // ~0.010
+options.NNorm = 2 / 96;  // ~0.021
 
 
 //stampOscilatingLarge(A, 10, 10);
