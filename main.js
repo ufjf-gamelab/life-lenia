@@ -4,7 +4,7 @@ import { atualizaMatriz, stampDiagonalLarge, stampOscilatingLarge } from './prim
 
 const canvas = document.createElement("canvas");
 const TAM = 15;
-const DIM = 100;
+const DIM = 64;
 canvas.width = TAM*DIM;
 canvas.height = TAM*DIM;
 
