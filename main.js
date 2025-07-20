@@ -2,7 +2,7 @@ import { desenhaMatriz, limpaTela } from './design.js';
 import { atualizaMatriz } from './convolution.js';
 
 const canvas = document.createElement("canvas");
-const TAM = 5;
+const TAM = 15;
 const DIM = 64;
 canvas.width = TAM*DIM;
 canvas.height = TAM*DIM;
