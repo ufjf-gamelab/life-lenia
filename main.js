@@ -85,7 +85,7 @@ options.R = patternSelecionado.R;
 options.T = patternSelecionado.T;
 options.m = patternSelecionado.m;
 options.s = patternSelecionado.s;
-options.kernel = geraKernel(options.R, options.m, options.s);
+options.kernel = geraKernel(options.R, 0.5, 0.15);  //valores da forma universal do kernel
 
 // stampOscilatingLarge(A, 10, 10);
 // stampDiagonalLarge(A, 30, 30);
